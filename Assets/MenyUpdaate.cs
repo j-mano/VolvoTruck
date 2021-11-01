@@ -22,11 +22,8 @@ public class MenyUpdaate : MonoBehaviour
 
     void UpdateDroppDownSettings()
     {
-        MusicToggle.isOn    = ValidateMusicOn();
-        VsyncToggle.isOn    = validateVsynon();
-        WindowToggle.isOn   = ValidateWindowd();
-
         GraphicsLVLList();
+        FillResulutionList();
     }
 
     void UpdateToggle()
@@ -135,13 +132,38 @@ public class MenyUpdaate : MonoBehaviour
     }
 
     void GraphicsLVLList(){
+        int qualityLevel = QualitySettings.GetQualityLevel();
+
         GraphicsLVLDropdown.ClearOptions();
         GraphicsLVLDropdown.AddOptions(GetQualitySettingsName());
 
-        SetToCurrentGrafmode();
+        SetToCurrentGrafmode(qualityLevel);
     }
 
-    void SetToCurrentGrafmode(){
+    void SetToCurrentGrafmode(int qualityLevel)
+    {
         GraphicsLVLDropdown.value = QualitySettings.GetQualityLevel();
+    }
+
+    void FillResulutionList()
+    {
+        Resolution[] resolutions = Screen.resolutions;
+
+        List<string> DropOptions = new List<string>();
+
+        foreach (var res in resolutions)
+        {
+            ResulutionDropdown.ClearOptions();
+            DropOptions.Add(res.ToString());
+        }
+
+        ResulutionDropdown.AddOptions(DropOptions);
+
+        SetToCurrentResmode();
+    }
+
+    void SetToCurrentResmode()
+    {
+        ResulutionDropdown.value = ResulutionDropdown.options.FindIndex(option => option.text == Screen.currentResolution.ToString());
     }
 }

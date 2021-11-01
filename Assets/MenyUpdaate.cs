@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class MenyUpdaate : MonoBehaviour
 {
-    public Dropdown GraphicsLVLDropdown;
-    public Dropdown ResulutionDropdown;
-    public Toggle MusicToggle;
-    public Toggle VsyncToggle;
+    public Dropdown GraphicsLVLDropdown, ResulutionDropdown;
+    public Toggle MusicToggle, VsyncToggle, WindowToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +22,16 @@ public class MenyUpdaate : MonoBehaviour
 
     void UpdateDroppDownSettings()
     {
+        MusicToggle.isOn    = ValidateMusicOn();
+        VsyncToggle.isOn    = validateVsynon();
+        WindowToggle.isOn   = ValidateWindowd();
 
+        GraphicsLVLList();
     }
 
     void UpdateToggle()
     {
-        MusicToggle.isOn = ValidateMusicOn();
-        VsyncToggle.isOn = validateVsynon();
+
     }
 
 
@@ -61,6 +62,10 @@ public class MenyUpdaate : MonoBehaviour
         setGraphicalLVL(GraphicsLVL);
     }
 
+    public void setWindowd(){
+        Screen.fullScreen = !Screen.fullScreen;
+    }
+
     // Functions after this line
 
     void GetAvaliableResulution()
@@ -82,6 +87,14 @@ public class MenyUpdaate : MonoBehaviour
         QualitySettings.SetQualityLevel(graphicsLVL, true);
     }
 
+    void setVseync()
+    {
+        if (validateVsynon())
+            QualitySettings.vSyncCount = 0;
+        else
+            QualitySettings.vSyncCount = 1;
+    }
+
     bool validateVsynon()
     {
         if (QualitySettings.vSyncCount > 0)
@@ -90,12 +103,8 @@ public class MenyUpdaate : MonoBehaviour
             return false;
     }
 
-    void setVseync()
-    {
-        if (validateVsynon())
-            QualitySettings.vSyncCount = 0;
-        else
-            QualitySettings.vSyncCount = 1;
+    bool ValidateWindowd(){
+        return !Screen.fullScreen;
     }
 
     bool ValidateMusicOn()
@@ -111,5 +120,28 @@ public class MenyUpdaate : MonoBehaviour
     void SetVolum()
     {
         // Implement Cokie system.
+    }
+
+    List<string> GetQualitySettingsName(){
+        string[] name = QualitySettings.names;
+
+        List<string> ListNames = new List<string>();
+
+        foreach(string namee in name){
+            ListNames.Add(namee);
+        }
+
+        return ListNames;
+    }
+
+    void GraphicsLVLList(){
+        GraphicsLVLDropdown.ClearOptions();
+        GraphicsLVLDropdown.AddOptions(GetQualitySettingsName());
+
+        SetToCurrentGrafmode();
+    }
+
+    void SetToCurrentGrafmode(){
+        GraphicsLVLDropdown.value = QualitySettings.GetQualityLevel();
     }
 }

@@ -62,6 +62,7 @@
      <Compile Include="Assets\MenyUpdaate.cs" />
      <Compile Include="Assets\Controller.cs" />
      <Compile Include="Assets\Start_Game.cs" />
+     <None Include="Assets\Graphics\Links.txt" />
  <Reference Include="UnityEngine">
  <HintPath>/home/joachim/Unity/Hub/Editor/2020.3.23f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
